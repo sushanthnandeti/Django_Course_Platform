@@ -80,6 +80,9 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     description = models.TextField(blank=True, null=True)
+    thumbnail = CloudinaryField("image", blank=True, null=True)
+    video = CloudinaryField("video", blank=True, null=True, resource_type = 'video')
+
     can_preview = models.BooleanField(default= False, help_text="If a user does not have access to course, can they preview this lesson")
 
     status = models.CharField(
