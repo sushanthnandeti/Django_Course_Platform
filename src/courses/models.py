@@ -39,3 +39,51 @@ class Course(models.Model) :
     @property 
     def is_published(self):
         return self.status == PublishStatus.PUBLISHED
+    
+    @property 
+    def image_admin_url(self):
+        if not self.image: 
+            return ""
+        image_options = {
+            "width" : 200
+        }
+        url = self.image.build_url(**image_options)
+        return url
+     
+    def get_image_thumbail(self, as_html = False, width = 500):
+        if not self.image: 
+            return ""
+        image_options = {
+            "width" : width
+        }
+        if as_html: 
+            # CloudinaryImage(cloudinary_id).image(**image_options)
+
+            return self.image.build_url(**image_options) 
+        # CloudinaryImage(cloudinary_id).build_url(**image_options)
+        url = self.image.build_url(**image_options)
+        return url
+    
+# Lesson.objects.all() # lesson queryset -> all rows
+# Lesson.objects.first()
+# course_obj = Course.objects.first()
+# course_qs = Course.objects.filter(id=course_obj.id)
+# Lesson.objects.filter(course__id=course_obj.id)
+# course_obj.lesson_set.all()
+# lesson_obj = Lesson.objects.first()
+# ne_course_obj = lesson_obj.course
+# ne_course_lessons = ne_course_obj.lesson_set.all()
+# lesson_obj.course_id
+# course_obj.lesson_set.all().order_by("-title")
+    
+class Lesson(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=120)
+    description = models.TextField(blank=True, null=True)
+    can_preview = models.BooleanField(default= False, help_text="If a user does not have access to course, can they preview this lesson")
+
+    status = models.CharField(
+        max_length=10,
+        choices= PublishStatus.choices,
+        default=PublishStatus.PUBLISHED
+    )
