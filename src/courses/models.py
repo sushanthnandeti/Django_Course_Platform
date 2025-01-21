@@ -28,7 +28,7 @@ def get_public_id_prefix(instance, *args, **kwargs):
     if title:
         slug = slugify(title)
         unique_id = str(uuid.uuid4()).replace("-", "")[:5]
-        return f'Courses/{slug}'
+        return f'Courses/{slug} - {unique_id}'
     
     if instance.id: 
         return f'courses/{instance.id}'
