@@ -94,7 +94,7 @@ class Course(models.Model) :
 
     @property
     def path(self):
-        return self.path
+        return f"/courses/{self.public_id}"
     
     def get_display_name(self):
         return f'{self.title} - Course'
